@@ -17,14 +17,15 @@ Verilog Code (Module definitions) for tic-tac-toe ->
 
 module ticTacToe (
 input clk , // clock of game
-input rst , // reset game a
+input rst , // reset game 
 // Reset = 1: Reset the game when in the Game_Over state.
 // Reset = 0: The game begins.
 
 
 input  player , //  play button to enable player to play
 input  pc , // pc button to enable computer to play
-// PC = 1: When in COMPUTER state, PC = 1 is to switch to the IDLE state and the computer plays. 
+// PC = 1: When in COMPUTER state, 
+// PC = 1 is to switch to the IDLE state and the computer plays. 
 //PC =0 : stay in COMPUTER state.
 
 
@@ -105,9 +106,6 @@ module illegalMoveDetector(
    output wire illegalMove
    );
 
-
-
-
 // When the player presses a button at particular position at 4 bit position In[3:0] and it requires to be decoded to enable writing to the corresponding registers
 // Basically, position is to be stored at a particular position.
 module positionDecoder (
@@ -115,27 +113,6 @@ input  [3:0] In,
 input  en,
 output  wire[15:0] outEn
 );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
