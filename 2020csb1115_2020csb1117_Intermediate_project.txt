@@ -1,0 +1,193 @@
+﻿Intermediate Project Submission
+Rohan (2020csb1117)
+Raghav Patidar (2020csb1115)
+
+
+Verilog Code (Module definitions) for tic-tac-toe ->
+
+
+// Positions in tic tac toe game assumed as :
+// 1 2 3
+// 4 5 6
+// 7 8 9
+//Representation of player and computer
+// 01: Player 
+// 10: Computer
+
+
+module ticTacToe (
+input clk , // clock of game
+input rst , // reset game a
+// Reset = 1: Reset the game when in the Game_Over state.
+// Reset = 0: The game begins.
+
+
+input  player , //  play button to enable player to play
+input  pc , // pc button to enable computer to play
+// PC = 1: When in COMPUTER state, PC = 1 is to switch to the IDLE state and the computer plays. 
+//PC =0 : stay in COMPUTER state.
+
+
+// Position picked by players p1, p2
+input [3:0] computer_position,player_position,
+
+
+// 2 Bit value to store who is present at position 1,2,3,4,5,6,7,8,9
+output wire[1:0] pos1, pos2, pos3, pos4, pos5, pos6, pos7, pos8, pos9 ;
+
+
+// 2 bit value which tells who is the winner
+// Winner = 01 if player wins , 10 if computer wins
+output wire [1:0] winner;
+);
+
+
+
+
+//Fsm Controller to control the game play
+module fsmController(
+input  clk, rst, play, pc, // Clock , reset, Player turn, Computer turn
+input illegalMove, // Detected illegal move
+// Illegal_move = 0: When in PLAYER state, Illegal_move = 0 is to switch to COMPUTER state and let the computer play when PC = 1.
+// Illegal_move = 1: Illegal moving from the player/ computer and switch to the IDLE state.
+
+
+input noSpace, 
+// No space detected
+// No_space = 0: still have space to play, continue the game.
+// No_space = 1: no more space to play, game over, and need to reset the game before // playing again.
+
+
+input win, // Winner detected 
+// Win = 0: Still waiting for the winner
+// Win = 1: There is a winner, finish the game, and need to reset the game before playing again.
+output computerPlay, // enabling computer to play
+output PlayerPlay // enabling player to play
+);
+
+
+
+
+// To store positions of players when FSM controller is enabled
+module positionRegisters(
+input clk,rst, // Clock, reset
+input illegalMove, // Detected illegal move
+input [8:0] p1_en,  // Player enable signals for particular position
+input [8:0] p2_en, // Computer enable signals for particular position
+
+
+
+
+output  reg[1:0] pos1,pos2,pos3,pos4,pos5,pos6,pos7,pos8,pos9 // Final positions 
+);
+
+
+
+
+// To detect if no more space to play
+module noSapceDetector(
+// Tell who is present at a particular position
+input [1:0] pos1,pos2,pos3,pos4,pos5,pos6,pos7,pos8,pos9,
+
+
+output wire no_space
+);
+
+
+
+
+// To check whether the move is correct or not
+module illegalMoveDetector(
+   input [1:0] pos1,pos2,pos3,pos4,pos5,pos6,pos7,pos8,pos9, 
+   input [8:0] p1en, p2en, 
+
+
+   output wire illegalMove
+   );
+
+
+
+
+// When the player presses a button at particular position at 4 bit position In[3:0] and it requires to be decoded to enable writing to the corresponding registers
+// Basically, position is to be stored at a particular position.
+module positionDecoder (
+input  [3:0] In,
+input  en,
+output  wire[15:0] outEn
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// A particular player will win if we have same sign on following positions of 3X3 grid
+// Rows -> (1,2,3); (4,5,6);(7,8,9); 
+// Columns -> (1,4,7); (2,5,8);(3,6,9); 
+// Diagonals -> (1,5,9);(3,5,7); 
+module winner_detector (
+// Tells who is present at position from 1 to 9
+input [1:0] pos1,pos2,pos3,pos4,pos5,pos6,pos7,pos8,pos9,
+
+
+// Will tell whether winner is present or not
+ output wire winner,
+
+
+// Tell who is the winner
+output wire [1:0] player
+);
+
+
+// Logic to be used :
+// Now we will check if there is a winner present in all rows, columns and diagonals.
+//module winner_detector_in_3pos will be used at all possible combinations stated above
+
+
+
+
+module winner_detector_in_3pos
+(
+input [1:0] pos0 , pos1, pos2 ,
+// Tells whether there is player or computer at these three positions
+// These three positions could be a row, column or a diagonal.
+
+
+output wire winner ,
+// Determines whether a winner would be there or not by checking all three positions
+// This will be one if all three positions will be occupied by player or comp
+
+
+output wire [1:0] player );
+// Returns a 2 bit value which determines who won the game
+
+
+
+
+Module Hierarchy
+Main module is ticTacToe , inside which we have many modules instantiated.
+First of all we instantiate positionRegisters which allows us to check  whether we write at a particular position or not by using enable signals. Output of the position register is given to input of winner_detector (uses winner_detector_in_3pos) which gives 2 bit output of winner. After this we instantiate positionDecoder which is the position selected by the player to get the enable signal. And then we instantiate illegalMoveDetector which tells that the particular move by the player is allowed or not, after which noSpaceDetector which tells if there is any space left in the 3X3 grid.
+At last we instantiate the fsmController module which controls the gameplay of the player with the computer. 
+
+
+NEXT PLAN -> 
+Logic is to be defined for these modules.
+Designing a test_bench is to be designed after completion of all modules.
