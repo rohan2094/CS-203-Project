@@ -3,41 +3,6 @@ Rohan (2020CSB1117)
 Raghav Patidar (2020CSB1115)
 https://github.com/rohan2094/CS-203-Project.git
 
-
-Project 1 - Image Processing
-1. TITLE - Image Processing using verilog HDL and Matlab.
-
-
-2. OBJECTIVE -
-* It takes an image from the user and performs some operations by manipulating pixels (changing brightness, black and white etc…). 
-* MATLAB was used to develop an initial version of the filter, so that its operation could be verified and its results could be compared to the hardware version. 
-* While MATLAB offers features that speed up operations on matrices like images. And all other work is done in Verilog. 
-* The output of the image can be changed based on the analysis of the image.
-
-
-3. IMPLEMENTATION -
-*  It takes image file in formats of jpg/bmp/jpeg/png
-*  Convert it to hexadecimal file using matlab
-*   use this hexadecimal file as an input of xilinx
-*  Selection of operation. There are mainly four operations 
-1. Brightness
-2. Invert
-3. Black and White
-4. Threshold
-* Simulate and finally get the output.
-Implemented on following softwares :-
-* Matlab and Xilinx Softwares are used.
-* Matlab for converting input file to hexadecimal file.
-* Xilinx is for the remaining programme.
-
-
-4. FUNCTIONALITY -
-* Verilog cannot read images directly. To read the .bmp image in Verilog, the image is required to be converted from the bitmap format to the hexadecimal format .It is done by using Matlab .
-* There are several modules like read image, write image, parameters etc.
-* After processing the image, it is needed to write the processed data to an output image for verifications and the output image file is automatically generated in our folder. This project is used in many mobile applications and softwares.
-____________________________________________________________
-
-
 Project 2 - Tic Tac Toe Game
 1. TITLE - Tic Tac Toe Game
 
@@ -56,7 +21,6 @@ Project 2 - Tic Tac Toe Game
 * Reset button will be implemented to restart the game.
 Implemented on following softwares :-
 * Verilog HDL Programming Language
-* LogiSim
 
    4. FUNCTIONALITY -
    * Used as a pedagogical tool for teaching the concepts of good sportsmanship and the branch of artificial intelligence that deals with the searching of game trees.
