@@ -1,7 +1,7 @@
+// CS203 Final Project Submission
+//Raghav Patidar (2020CSB1115)
+// Rohan (2020CSb1117)
 
-//Raghav Patidar
-
-// fpga4student.com: FPGA projects, Verilog projects, VHDL projects
 // Verilog code for TIC TAC TOE GAME 
 // Top level module  
 module tic_tac_toe_game(
@@ -329,7 +329,7 @@ module nospace_detector(
    output wire no_space
     );
 wire t1,t2,t3,t4,t5,t6,t7,t8,t9;
-// detect no more space     
+// detect no more space
 assign t1 = pos1[1] | pos1[0];
 assign t2 = pos2[1] | pos2[0];
 assign t3 = pos3[1] | pos3[0];
@@ -346,7 +346,6 @@ endmodule
 
 // Illegal move detector
 // to detect if a player plays on an exist position 
-
 module illegal_move_detector(
    input [1:0] pos1,pos2,pos3,pos4,pos5,pos6,pos7,pos8,pos9, 
   input [8:0] PC_en_signal, PL_en_signal, 
@@ -380,7 +379,7 @@ assign t19 = (pos9[1] | pos9[0]) & PC_en_signal[8];
 // intermediate signals 
 assign t21 =((((((((t1 | t2) | t3) | t4) | t5) | t6) | t7) | t8) | t9);
 assign t22 =((((((((t11 | t12) | t13) | t14) | t15) | t16) | t17) | t18) | t19);
-// output illegal move 
+// output illegal move
 assign illegal_move = t21 | t22 ;
 endmodule 
 
@@ -442,6 +441,8 @@ endmodule
 // Computer: 10
 
 module winner_detect_across_line(input [1:0] pos0,pos1,pos2, output wire winner, output wire [1:0]who);
+// pos0, pos1 and pos2 Tells whether there is player or computer at these three positions
+// These three positions could be a row, column or a diagonal.
 wire [1:0] temp0,temp1,temp2;
 wire temp3;
 assign temp0[1] = !(pos0[1]^pos1[1]);
