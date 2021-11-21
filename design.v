@@ -1,44 +1,45 @@
-// CS203 Final Project Submission
-//Raghav Patidar (2020CSB1115)
-// Rohan (2020CSb1117)
+// CS203 finall project 
+// Tic-Tac-Toe
+// Raghav Patidar 2020CSB1115
+// Rohan Khanna 2020CSB1117
 
-// Verilog code for TIC TAC TOE GAME 
-// Top level module  
+
+
 module tic_tac_toe_game(
-     input clk, // clock of the game 
-     input rst, // reset button to reset the game 
-     input pp, // play button to enable player to play 
-     input pc, // pc button to enable computer to play 
-     input [3:0] computer_position,player_position, 
-     // positions to play 
-  output wire [1:0] pos1,pos2,pos3,pos4,pos5,pos6,pos7,pos8,pos9,
-     // LED display for positions 
+  
+     input clk, // clock 
+     input rst, // reset button
+     input pp, // enable player to play
+     input pc, // enable computer to play
+     input [3:0] computer_position,player_position, // positions to play
+     output wire [1:0] pos1,pos2,pos3,pos4,pos5,pos6,pos7,pos8,pos9,
+    
      // 01: Player 
      // 10: Computer 
-     output wire[1:0]who 
-     // who the winner is 
+  
+  output wire[1:0]who // finall winner of game
      );
   
-  wire computer_enable; // computer enabling signal 
-  wire player_enable; // player enabling signal 
-  wire [15:0] PC_en_signal;// Computer enable signals 
-  wire [15:0] PL_en_signal; // Player enable signals 
-  wire illegal_move; // disable writing when an illegal move is detected 
- wire win_signal; // win signal 
- wire no_space_signal; // no space signal 
+  wire computer_enable; // signal to enable computer
+  wire player_enable; // signal to enable player
+  wire [15:0] PC_en_signal;// Computer enable signals
+  wire [15:0] PL_en_signal; // Player enable signals
+  wire illegal_move; //when an illegal move is detected then it disable writing
+  wire win_signal; // win signal
+  wire no_space_signal; // no space signal
   
   
- // position registers    
+ // position registers
   position_registers position_reg_unit(
-      clk, // clock of the game 
-      rst, // reset the game 
-      illegal_move, // disable writing when an illegal move is detected 
+      clk, // clock
+      rst, // reset button
+      illegal_move, //when an illegal move is detected then it disable writing
       PC_en_signal[8:0], // Computer enable signals 
       PL_en_signal[8:0], // Player enable signals 
       pos1,pos2,pos3,pos4,pos5,pos6,pos7,pos8,pos9// positions stored
       );
   
- // winner detector 
+ // winner detector
   winner_detector win_detect_unit(pos1,pos2,pos3,pos4,pos5,pos6,pos7,pos8,pos9,win_signal,who);
   
  // position decoder for computer 
@@ -60,11 +61,12 @@ module tic_tac_toe_game(
    no_space_signal
     ); 
   
+  //Fsm Controller to control the game play
  fsm_controller tic_tac_toe_controller(
-     clk,// clock of the circuit 
-     rst,// reset 
-     pp, // player plays 
-     pc,// computer plays 
+     clk,// clock 
+     rst,// reset button
+     pp, // player chance 
+     pc,// computer chance 
      illegal_move,// illegal move detected 
      no_space_signal, // no_space detected 
      win_signal, // winner detected 
@@ -74,9 +76,7 @@ module tic_tac_toe_game(
   
 endmodule
 
-// Position registers 
-// to store player and computer positions
-// when enabling by the FSM controller
+// Position registers to store player and computer positions when enabling by the FSM controller
 
 module position_registers(
       input clk, // clock of the game
@@ -241,8 +241,7 @@ module position_registers(
  end  
 endmodule 
 
-// FSM controller to control how player and computer play the TIC TAC TOE GAME
-// The FSM is implemented based on the designed state diagram
+// FSM controller to control how player and computer play the game
 
 module fsm_controller(
      input clk,// clock of the circuit 
@@ -329,7 +328,7 @@ module nospace_detector(
    output wire no_space
     );
 wire t1,t2,t3,t4,t5,t6,t7,t8,t9;
-// detect no more space
+// detect no more space     
 assign t1 = pos1[1] | pos1[0];
 assign t2 = pos2[1] | pos2[0];
 assign t3 = pos3[1] | pos3[0];
@@ -346,6 +345,7 @@ endmodule
 
 // Illegal move detector
 // to detect if a player plays on an exist position 
+
 module illegal_move_detector(
    input [1:0] pos1,pos2,pos3,pos4,pos5,pos6,pos7,pos8,pos9, 
   input [8:0] PC_en_signal, PL_en_signal, 
@@ -379,7 +379,7 @@ assign t19 = (pos9[1] | pos9[0]) & PC_en_signal[8];
 // intermediate signals 
 assign t21 =((((((((t1 | t2) | t3) | t4) | t5) | t6) | t7) | t8) | t9);
 assign t22 =((((((((t11 | t12) | t13) | t14) | t15) | t16) | t17) | t18) | t19);
-// output illegal move
+// output illegal move 
 assign illegal_move = t21 | t22 ;
 endmodule 
 
@@ -441,8 +441,6 @@ endmodule
 // Computer: 10
 
 module winner_detect_across_line(input [1:0] pos0,pos1,pos2, output wire winner, output wire [1:0]who);
-// pos0, pos1 and pos2 Tells whether there is player or computer at these three positions
-// These three positions could be a row, column or a diagonal.
 wire [1:0] temp0,temp1,temp2;
 wire temp3;
 assign temp0[1] = !(pos0[1]^pos1[1]);
