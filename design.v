@@ -6,40 +6,40 @@
 
 
 module tic_tac_toe_game(
-  
-     input clk, // clock 
-     input rst, // reset button
-     input pp, // enable player to play
-     input pc, // enable computer to play
-     input [3:0] computer_position,player_position, // positions to play
-     output wire [1:0] pos1,pos2,pos3,pos4,pos5,pos6,pos7,pos8,pos9,
-    
+     input clk, // clock of the game 
+     input rst, // reset button to reset the game 
+     input pp, // play button to enable player to play 
+     input pc, // pc button to enable computer to play 
+     input [3:0] computer_position,player_position, 
+     // positions to play 
+  output wire [1:0] pos1,pos2,pos3,pos4,pos5,pos6,pos7,pos8,pos9,
+     // LED display for positions 
      // 01: Player 
      // 10: Computer 
-  
-  output wire[1:0]who // finall winner of game
+     output wire[1:0]who 
+     // who the winner is 
      );
   
-  wire computer_enable; // signal to enable computer
-  wire player_enable; // signal to enable player
-  wire [15:0] PC_en_signal;// Computer enable signals
-  wire [15:0] PL_en_signal; // Player enable signals
-  wire illegal_move; //when an illegal move is detected then it disable writing
-  wire win_signal; // win signal
-  wire no_space_signal; // no space signal
+  wire computer_enable; // computer enabling signal 
+  wire player_enable; // player enabling signal 
+  wire [15:0] PC_en_signal;// Computer enable signals 
+  wire [15:0] PL_en_signal; // Player enable signals 
+  wire illegal_move; // disable writing when an illegal move is detected 
+ wire win_signal; // win signal 
+ wire no_space_signal; // no space signal 
   
   
- // position registers
+ // position registers    
   position_registers position_reg_unit(
-      clk, // clock
-      rst, // reset button
-      illegal_move, //when an illegal move is detected then it disable writing
-      PC_en_signal[8:0], // Computer enable signals 
-      PL_en_signal[8:0], // Player enable signals 
+      clk, // clock of the game 
+      rst, // reset the game 
+      illegal_move, // disable writing when an illegal move is detected 
+    PC_en_signal[9:0], // Computer enable signals 
+    PL_en_signal[9:0], // Player enable signals 
       pos1,pos2,pos3,pos4,pos5,pos6,pos7,pos8,pos9// positions stored
       );
   
- // winner detector
+ // winner detector 
   winner_detector win_detect_unit(pos1,pos2,pos3,pos4,pos5,pos6,pos7,pos8,pos9,win_signal,who);
   
  // position decoder for computer 
@@ -51,7 +51,7 @@ module tic_tac_toe_game(
  // illegal move detector
   illegal_move_detector i_m_d(
    pos1,pos2,pos3,pos4,pos5,pos6,pos7,pos8,pos9, 
-    PC_en_signal[8:0], PL_en_signal[8:0], 
+    PC_en_signal[9:0], PL_en_signal[9:0], 
    illegal_move
    );
   
@@ -61,12 +61,11 @@ module tic_tac_toe_game(
    no_space_signal
     ); 
   
-  //Fsm Controller to control the game play
  fsm_controller tic_tac_toe_controller(
-     clk,// clock 
-     rst,// reset button
-     pp, // player chance 
-     pc,// computer chance 
+     clk,// clock of the circuit 
+     rst,// reset 
+     pp, // player plays 
+     pc,// computer plays 
      illegal_move,// illegal move detected 
      no_space_signal, // no_space detected 
      win_signal, // winner detected 
@@ -76,14 +75,16 @@ module tic_tac_toe_game(
   
 endmodule
 
-// Position registers to store player and computer positions when enabling by the FSM controller
+// Position registers 
+// to store player and computer positions
+// when enabling by the FSM controller
 
 module position_registers(
       input clk, // clock of the game
       input rst, // reset the game 
       input illegal_move, // disable writing when an illegal move is detected 
-  input [8:0] PC_en_signal, // Computer enable signals 
-  input [8:0] PL_en_signal, // Player enable signals 
+  input [9:0] PC_en_signal, // Computer enable signals 
+  input [9:0] PL_en_signal, // Player enable signals 
       output reg[1:0] pos1,pos2,pos3,pos4,pos5,pos6,pos7,pos8,pos9// positions stored
       );
   
@@ -95,9 +96,9 @@ module position_registers(
   else begin
    if(illegal_move==1'b1)
     pos1 <= pos1;// keep previous position
-   else if(PC_en_signal[0]==1'b1)
+    else if(PC_en_signal[1]==1'b1)
     pos1 <= 2'b10; // store computer data 
-   else if (PL_en_signal[0]==1'b1)
+    else if (PL_en_signal[1]==1'b1)
     pos1 <= 2'b01;// store player data 
    else 
     pos1 <= pos1;// keep previous position
@@ -112,9 +113,9 @@ module position_registers(
   else begin
    if(illegal_move==1'b1)
     pos2 <= pos2;// keep previous position
-   else if(PC_en_signal[1]==1'b1)
+    else if(PC_en_signal[2]==1'b1)
     pos2 <= 2'b10; // store computer data 
-   else if (PL_en_signal[1]==1'b1)
+    else if (PL_en_signal[2]==1'b1)
     pos2 <= 2'b01;// store player data 
    else 
     pos2 <= pos2;// keep previous position
@@ -129,9 +130,9 @@ module position_registers(
   else begin
    if(illegal_move==1'b1)
     pos3 <= pos3;// keep previous position
-   else if(PC_en_signal[2]==1'b1)
+    else if(PC_en_signal[3]==1'b1)
     pos3 <= 2'b10; // store computer data 
-   else if (PL_en_signal[2]==1'b1)
+    else if (PL_en_signal[3]==1'b1)
     pos3 <= 2'b01;// store player data 
    else 
     pos3 <= pos3;// keep previous position
@@ -146,9 +147,9 @@ module position_registers(
   else begin
    if(illegal_move==1'b1)
     pos4 <= pos4;// keep previous position
-   else if(PC_en_signal[3]==1'b1)
+    else if(PC_en_signal[4]==1'b1)
     pos4 <= 2'b10; // store computer data 
-   else if (PL_en_signal[3]==1'b1)
+    else if (PL_en_signal[4]==1'b1)
     pos4 <= 2'b01;// store player data 
    else 
     pos4 <= pos4;// keep previous position
@@ -163,9 +164,9 @@ module position_registers(
   else begin
    if(illegal_move==1'b1)
     pos5 <= pos5;// keep previous position
-   else if(PC_en_signal[4]==1'b1)
+    else if(PC_en_signal[5]==1'b1)
     pos5 <= 2'b10; // store computer data 
-   else if (PL_en_signal[4]==1'b1)
+    else if (PL_en_signal[5]==1'b1)
     pos5 <= 2'b01;// store player data 
    else 
     pos5 <= pos5;// keep previous position
@@ -180,9 +181,9 @@ module position_registers(
   else begin
    if(illegal_move==1'b1)
     pos6 <= pos6;// keep previous position
-   else if(PC_en_signal[5]==1'b1)
+    else if(PC_en_signal[6]==1'b1)
     pos6 <= 2'b10; // store computer data 
-   else if (PL_en_signal[5]==1'b1)
+    else if (PL_en_signal[6]==1'b1)
     pos6 <= 2'b01;// store player data 
    else 
     pos6 <= pos6;// keep previous position
@@ -197,9 +198,9 @@ module position_registers(
   else begin
    if(illegal_move==1'b1)
     pos7 <= pos7;// keep previous position
-   else if(PC_en_signal[6]==1'b1)
+    else if(PC_en_signal[7]==1'b1)
     pos7 <= 2'b10; // store computer data 
-   else if (PL_en_signal[6]==1'b1)
+    else if (PL_en_signal[7]==1'b1)
     pos7 <= 2'b01;// store player data 
    else 
     pos7 <= pos7;// keep previous position
@@ -214,9 +215,9 @@ module position_registers(
   else begin
    if(illegal_move==1'b1)
     pos8 <= pos8;// keep previous position
-   else if(PC_en_signal[7]==1'b1)
+    else if(PC_en_signal[8]==1'b1)
     pos8 <= 2'b10; // store computer data 
-   else if (PL_en_signal[7]==1'b1)
+    else if (PL_en_signal[8]==1'b1)
     pos8 <= 2'b01;// store player data 
    else 
     pos8 <= pos8;// keep previous position
@@ -231,9 +232,9 @@ module position_registers(
   else begin
    if(illegal_move==1'b1)
     pos9 <= pos9;// keep previous position
-   else if(PC_en_signal[8]==1'b1)
+    else if(PC_en_signal[9]==1'b1)
     pos9 <= 2'b10; // store computer data 
-   else if (PL_en_signal[8]==1'b1)
+    else if (PL_en_signal[9]==1'b1)
     pos9 <= 2'b01;// store player data 
    else 
     pos9 <= pos9;// keep previous position
@@ -241,7 +242,8 @@ module position_registers(
  end  
 endmodule 
 
-// FSM controller to control how player and computer play the game
+// FSM controller to control how player and computer play the TIC TAC TOE GAME
+// The FSM is implemented based on the designed state diagram
 
 module fsm_controller(
      input clk,// clock of the circuit 
@@ -348,33 +350,33 @@ endmodule
 
 module illegal_move_detector(
    input [1:0] pos1,pos2,pos3,pos4,pos5,pos6,pos7,pos8,pos9, 
-  input [8:0] PC_en_signal, PL_en_signal, 
+  input [9:0] PC_en_signal, PL_en_signal, 
    output wire illegal_move
    );
 wire t1,t2,t3,t4,t5,t6,t7,t8,t9,t11,t12,t13,t14,t15,t16,t17,t18,t19,t21,t22;
 
 // player : illegal moving
   
-assign t1 = (pos1[1] | pos1[0]) & PL_en_signal[0];
-assign t2 = (pos2[1] | pos2[0]) & PL_en_signal[1];
-assign t3 = (pos3[1] | pos3[0]) & PL_en_signal[2];
-assign t4 = (pos4[1] | pos4[0]) & PL_en_signal[3];
-assign t5 = (pos5[1] | pos5[0]) & PL_en_signal[4];
-assign t6 = (pos6[1] | pos6[0]) & PL_en_signal[5];
-assign t7 = (pos7[1] | pos7[0]) & PL_en_signal[6];
-assign t8 = (pos8[1] | pos8[0]) & PL_en_signal[7];
-assign t9 = (pos9[1] | pos9[0]) & PL_en_signal[8];
+  assign t1 = (pos1[1] | pos1[0]) & PL_en_signal[1];
+  assign t2 = (pos2[1] | pos2[0]) & PL_en_signal[2];
+  assign t3 = (pos3[1] | pos3[0]) & PL_en_signal[3];
+  assign t4 = (pos4[1] | pos4[0]) & PL_en_signal[4];
+  assign t5 = (pos5[1] | pos5[0]) & PL_en_signal[5];
+  assign t6 = (pos6[1] | pos6[0]) & PL_en_signal[6];
+  assign t7 = (pos7[1] | pos7[0]) & PL_en_signal[7];
+  assign t8 = (pos8[1] | pos8[0]) & PL_en_signal[8];
+  assign t9 = (pos9[1] | pos9[0]) & PL_en_signal[9];
   
 // computer : illegal moving  
-assign t11 = (pos1[1] | pos1[0]) & PC_en_signal[0];
-assign t12 = (pos2[1] | pos2[0]) & PC_en_signal[1];
-assign t13 = (pos3[1] | pos3[0]) & PC_en_signal[2];
-assign t14 = (pos4[1] | pos4[0]) & PC_en_signal[3];
-assign t15 = (pos5[1] | pos5[0]) & PC_en_signal[4];
-assign t16 = (pos6[1] | pos6[0]) & PC_en_signal[5];
-assign t17 = (pos7[1] | pos7[0]) & PC_en_signal[6];
-assign t18 = (pos8[1] | pos8[0]) & PC_en_signal[7];
-assign t19 = (pos9[1] | pos9[0]) & PC_en_signal[8];
+  assign t11 = (pos1[1] | pos1[0]) & PC_en_signal[1];
+  assign t12 = (pos2[1] | pos2[0]) & PC_en_signal[2];
+  assign t13 = (pos3[1] | pos3[0]) & PC_en_signal[3];
+  assign t14 = (pos4[1] | pos4[0]) & PC_en_signal[4];
+  assign t15 = (pos5[1] | pos5[0]) & PC_en_signal[5];
+  assign t16 = (pos6[1] | pos6[0]) & PC_en_signal[6];
+  assign t17 = (pos7[1] | pos7[0]) & PC_en_signal[7];
+  assign t18 = (pos8[1] | pos8[0]) & PC_en_signal[8];
+  assign t19 = (pos9[1] | pos9[0]) & PC_en_signal[9];
   
 // intermediate signals 
 assign t21 =((((((((t1 | t2) | t3) | t4) | t5) | t6) | t7) | t8) | t9);
