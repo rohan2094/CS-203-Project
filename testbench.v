@@ -1,9 +1,9 @@
-// CS203 finall project 
+// CS203 final project 
 // Tic-Tac-Toe
 // Raghav Patidar 2020CSB1115
 // Rohan Khanna 2020CSB1117
 
-//  This is the first possible test_case in which computer will win
+//  This is the first possible test_case in which computer will win along diagnol
 module tb_tic_tac_toe;
  // Inputs
  reg clk;
@@ -61,7 +61,7 @@ module tb_tic_tac_toe;
   #100;
   pp = 1;
   pc = 0;
-  computer_position = 0;
+  computer_position = 1;
   player_position = 4;
   #50;
   pc = 1;
@@ -70,7 +70,7 @@ module tb_tic_tac_toe;
   rst = 0;
   pp = 1;
   pc = 0;
-  computer_position = 1;
+  computer_position = 5;
   player_position = 8;
   #50;
   pc = 1;
@@ -79,7 +79,7 @@ module tb_tic_tac_toe;
   rst = 0;
   pp = 1;
   pc = 0;
-  computer_position = 2;
+  computer_position = 9;
   player_position = 6;
   #50;
   pc = 1;
@@ -184,7 +184,7 @@ module tb_tic_tac_toe2;
   rst = 0;
   pp = 1;
   pc = 0;
-  computer_position = 7;
+  computer_position = 6;
   player_position = 9;
    
   #50;
@@ -209,7 +209,7 @@ endmodule
 
 
 
-//  This is the third possible test_case in which player will win
+//  This is the third possible test_case in which player will win along diagnol
 module tb_tic_tac_toe3;
  // Inputs
  reg clk;
@@ -268,7 +268,7 @@ module tb_tic_tac_toe3;
   pp = 1;
   pc = 0;
   computer_position = 4;
-  player_position = 0;
+  player_position = 3;
   #50;
   pc = 1;
   pp = 0;
@@ -277,7 +277,7 @@ module tb_tic_tac_toe3;
   pp = 1;
   pc = 0;
   computer_position = 8;
-  player_position = 1;
+  player_position = 5;
   #50;
   pc = 1;
   pp = 0;  
@@ -285,8 +285,8 @@ module tb_tic_tac_toe3;
   rst = 0;
   pp = 1;
   pc = 0;
-  computer_position = 6;
-  player_position = 2;
+  computer_position = 9;
+  player_position = 7;
   #50;
   pc = 1;
   pp = 0; 
